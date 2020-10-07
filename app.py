@@ -33,8 +33,8 @@ def result():
     headers = {
         'X-ListenAPI-Key': 'ce8e7ce414414764be7159d0aeecdb16',
     }
-    response = requests.request('GET', url, headers=headers)
-    return response.json()
+    response = requests.request('GET', url, headers=headers).json()
+    return type(response)
 
 @app.route("/summary")
 def summary():
