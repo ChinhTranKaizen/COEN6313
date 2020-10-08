@@ -6,6 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <ul id="results">
+        {% for result in results %}
+            <li>
+                <img src="{{result[3]}}" alt=""> {{ result[1] }}
+                <form action="{{result[2]}}">
+                    <input type="submit" value="Listen" />
+                </form>
+            </li> 
+        {% endfor %}
+    </ul>
 </body>
 </html>
