@@ -46,3 +46,5 @@ while i<=len(newstring):
     i = max([b,d,f])
     if a == -1:
         break
+results.remove(results[-1])
+print(results)
