@@ -33,18 +33,19 @@ def result():
     headers = {
         'X-ListenAPI-Key': 'ce8e7ce414414764be7159d0aeecdb16',
     }
-    response = requests.request('GET', url, headers=headers).json()
-    results = []
+    response = json.loads(json.dumps(requests.request('GET', url, headers=headers).json()))
 
+    finalresults = []
+    print(response)
     for result in response["results"]:
         temp = []
         temp.append(result["id"])
         temp.append(result["title_original"])
         temp.append(result["audio"])
         temp.append(result["image"])
-        results.append(temp)
+        finalresults.append(temp)
     
-    return results[2]
+    return finalresults[2]
 
 @app.route("/summary")
 def summary():
