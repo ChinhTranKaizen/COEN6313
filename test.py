@@ -10,19 +10,39 @@ sample = """
    "listennotes_url": "https://www.listennotes.com/e/0c3c6f19294e47b983f54a464328e1d7/", "explicit_content": false, "link": "https://happiestpodcast.wixsite.com/website?utm_source=listennotes.com&utm_campaign=Listen+Notes&utm_medium=website", "podcast": {"listennotes_url": "https://www.listennotes.com/c/8642fe7eae29485ab79ab92835eb602d/", "id": "8642fe7eae29485ab79ab92835eb602d", "title_highlighted": "Happiest Podcast On Earth - Disney, Disney World, Disneyland, and More!", "title_original":
    "Happiest Podcast On Earth - Disney, Disney World, Disneyland, and More!", "publisher_highlighted": "Disney", "publisher_original": "Disney", "image": "https://cdn-images-1.listennotes.com/podcasts/happiest-podcast-on-earth-disney-gZ_XpxEkL4B-CeKWiptvlIY.300x300.jpg", "thumbnail": "https://cdn-images-1.listennotes.com/podcasts/happiest-podcast-on-earth-disney-gZ_XpxEkL4B-CeKWiptvlIY.300x300.jpg", "genre_ids": [132, 123, 122, 68]}}, {"audio": "https://www.listennotes.com/e/p/961e60de50bf4570aa4274087ed87b52/", "audio_length_sec": 718, "rss": "Please upgrade to the PRO plan to see this field", "description_highlighted": "...Disney fans rejoice! Lots of news has been announced about Disney+ content, plus a new Halloween party is headed to Disney California Adventure and a new ride is headed to Disneyland.", "description_original": "Disney fans rejoice! Lots of news has been announced about Disney+ content, plus a new Halloween party is headed to Disney California Adventure and a new ride is headed to Disneyland. That and so much more on this episode. COMMUNITY: Join the DCTC community and be rewarded including early episode releases. https://tinyurl.com/y97k6jem SHOP: DCTC Merch https://www.redbubble.com/people/DizneyCTC Website - http://www.dizneycoasttocoast.com Twitter - http://www.twitter.com/dizneyctc Instagram - http://www.instagram.com/dizneyctc Facebook - https://www.facebook.com/DizneyCTC/ Patreon - https://www.patreon.com/DizneyCTC", "title_highlighted": "OOGIE BOOGIE BASH, DISNEY+ AND MORE - Disney Podcast - Dizney Coast to Coast - Ep. 624", "title_original": "OOGIE BOOGIE BASH, DISNEY+ AND MORE - Disney Podcast - Dizney Coast to Coast - Ep. 624", "transcripts_highlighted": [], "image": "https://cdn-images-1.listennotes.com/podcasts/dizney-coast-to-coast-the-ultimate-M4oL8uERdwX-bRMAaPESZe_.300x300.jpg", "thumbnail": "https://cdn-images-1.listennotes.com/podcasts/dizney-coast-to-coast-the-ultimate-M4oL8uERdwX-bRMAaPESZe_.300x300.jpg", "itunes_id": 819290316, "pub_date_ms": 1555873200149, "id": "961e60de50bf4570aa4274087ed87b52", "listennotes_url": "https://www.listennotes.com/e/961e60de50bf4570aa4274087ed87b52/", "explicit_content": false, "link": "https://dizneycoasttocoast.libsyn.com/oogie-boogie-bash-disney-and-more-disney-podcast-dizney-coast-to-coast-ep-624?utm_source=listennotes.com&utm_campaign=Listen+Notes&utm_medium=website", "podcast": {"listennotes_url": "https://www.listennotes.com/c/57aed456da494c0f9c4f859126d0554a/", "id": "57aed456da494c0f9c4f859126d0554a", "title_highlighted": "DIZNEY COAST TO COAST - The Ultimate Unofficial Disney Fan Podcast", "title_original": "DIZNEY COAST TO COAST - The Ultimate Unofficial Disney Fan Podcast", "publisher_highlighted": "DePodcastNetwork.com", "publisher_original": "DePodcastNetwork.com", "image": "https://cdn-images-1.listennotes.com/podcasts/dizney-coast-to-coast-the-ultimate-M4oL8uERdwX-bRMAaPESZe_.300x300.jpg", "thumbnail": "https://cdn-images-1.listennotes.com/podcasts/dizney-coast-to-coast-the-ultimate-M4oL8uERdwX-bRMAaPESZe_.300x300.jpg", "genre_ids": [132, 68, 122, 123]}}]}
 """
-sample_json = json.loads(sample)
-#print(type(sample_json))
+a = []
+b = []
+i = 0
+while i<= len(sample):
+    if sample.find("\"podcast\"",i) != -1:
+        a.append(sample.find("\"podcast\"",i))
+        b.append(sample.find("}",a[-1])+1)
+        i = b[-1]
+    else:
+        break
+newstring = sample[0:a[0]]
+for i in range(len(a)):
+    if i<len(a)-1:
+        newstring = newstring + sample[b[i]:a[i+1]]
+    else:
+        newstring += sample[b[i]:len(sample)]
+
 results = []
-for result in sample_json["results"]:
-        temp = []
-        temp.append(result["id"])
-        temp.append(result["title_original"])
-        temp.append(result["audio"])
-        temp.append(result["image"])
-        results.append(temp)
-#print(sample.find("\"audio\""))
-print(len(results))
-for i in results:
-    print(len(i))
-    print(i[1])
-#data of interest: id, audio, image, title_original,
+i=0
+while i<=len(newstring):
+    temp = ["","","",""]
+    #find id
+    a=newstring.find("\"id\"",i)
+    b=newstring.find("\"",a+7)
+    temp[0] = newstring[a+7:b]
+    temp[1] = "https://www.listennotes.com/e/p/"+temp[0]+"/"
+    c=newstring.find("\"image\"",i)
+    d=newstring.find("\"",c+10)
+    temp[2] = newstring[c+10:d]
+    e=newstring.find("\"title_original\"",i)
+    f=newstring.find("\"",e+19)
+    temp[3] = newstring[e+19:f]
+    results.append(temp)
+    i = max([b,d,f])
+    if a == -1:
+        break
