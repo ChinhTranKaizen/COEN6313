@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+from response_processor import response_processor
 import requests
 import json
 
@@ -34,18 +34,8 @@ def result():
         'X-ListenAPI-Key': 'ce8e7ce414414764be7159d0aeecdb16',
     }
     response = json.loads(json.dumps(requests.request('GET', url, headers=headers).json()))
-
-    finalresults = []
-    print(response)
-    for result in response["results"]:
-        temp = []
-        temp.append(result["id"])
-        temp.append(result["title_original"])
-        temp.append(result["audio"])
-        temp.append(result["image"])
-        finalresults.append(temp)
-    
-    return finalresults[2]
+    results = response_processor(response)
+    return render_template("result.html")
 
 @app.route("/summary")
 def summary():
