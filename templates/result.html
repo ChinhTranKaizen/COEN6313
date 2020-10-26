@@ -4,14 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='style/style_result.css') }}">
 </head>
 <body>
-    <ul>
-        {% for result in results %}
-            <li>
-                <img src="{{result[2]}}" style="width:400px;height:400px;"> {{ result[3] }} <form action="{{result[1]}}"><input type="submit" value="Listen" /></form>
-            </li> 
-        {% endfor %}
-    </ul>
+    <div class="header">
+        <h1>This is the result page</h1>
+    </div>
+    {% for result in response['results'] %}
+        <div class="container">
+            <div class="podcast">
+                <h3 class="podcast__episode_title">{{result['title_original']}}</h3>
+                <h5 class="podcast__title">
+                {{result['podcast']['title_original']}}
+                </h5>
+          
+                <div class="podcast__meta">
+                <audio controls width="100%" class = "podcast__audio">
+                    <source src="{{result['audio']}}">
+                    Your browser does not support the audio tag.
+                </audio>
+                <button class="result_buttons">Summary</button>
+                <!-- The Favorite button will prompt please sign in to add to favorite when the user is not yet signed in -->
+                <button class="result_buttons">Favorite</button>
+                <a href="#" class="artwork">
+                <img src="{{result['image']}}" alt="">
+                </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 </body>
 </html>

@@ -5,9 +5,11 @@ import json
 
 app = Flask(__name__)
 
+login_token = ""
+
 @app.route("/")
 def search():
-    return render_template("search.html")
+    return render_template("search.html",login_token=login_token)
 
 @app.route("/result", methods=["POST"])
 def result():
@@ -33,16 +35,36 @@ def result():
     headers = {
         'X-ListenAPI-Key': 'ce8e7ce414414764be7159d0aeecdb16',
     }
-    response = requests.request('GET', url, headers=headers).json()
+
+    #comment out the sending request to style and modify result page
+    #response = requests.request('GET', url, headers=headers).json()
+    
+    with open("test.json","r") as json_file:
+        response = json.load(json_file)
+
     if response["results"] == []:
         return "no results"
     else:
-        response=json.dumps(response)
-        results = response_processor(response)
-        return render_template("result.html", results = results)
+        #response=json.dumps(response)
+        # results = response_processor(response)
+        return render_template("result.html", response = response,login_token=login_token)
+
+@app.route("/sign_in")
+def sign_in():
+    
+    return render_template("signin.html")
+
+@app.route("/sign_up")
+def sign_up():
+    
+    return render_template("signup.html")
 
 @app.route("/summary")
 def summary():
+    return ""
+
+@app.route("/account")
+def account():
     return ""
 
 if __name__ == "__main__":
