@@ -33,12 +33,17 @@ def result():
     headers = {
         'X-ListenAPI-Key': 'ce8e7ce414414764be7159d0aeecdb16',
     }
-    response = json.dumps(requests.request('GET', url, headers=headers).json())
-    results = response_processor(response)
-    return render_template("result.html", results = results)
+    response = requests.request('GET', url, headers=headers).json()
+    if response["results"] == []:
+        return "no results"
+    else:
+        response=json.dumps(response)
+        results = response_processor(response)
+        return render_template("result.html", results = results)
 
 @app.route("/summary")
 def summary():
     return ""
 
-app.run(debug = True)
+if __name__ == "__main__":
+    app.run(debug = True)
