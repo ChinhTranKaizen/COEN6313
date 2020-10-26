@@ -2,3 +2,7 @@
     text-align: center;
     font: Helvetica;
 }
+
+.sign_reg #status {
+    text-align: right;
+}

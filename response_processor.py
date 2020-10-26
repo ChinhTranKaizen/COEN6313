@@ -47,6 +47,6 @@ def response_processor(sample):
         i = max([b,d,f])
         if a == -1:
             break
-        return results
-    #results.remove(results[-1])
+    results.remove(results[-1])
+    return results
     #print(results)

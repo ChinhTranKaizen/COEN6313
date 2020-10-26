@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div style="text-align: right;">You are not signed in</div>
+    <div style="text-align: right;">
+        <button type="button">Sign in</button>
+        <button type="button">Register</button>
+    </div>
     <div class="title"> <h1>Search for podcast!</h1></div>
     <div class="searchsection" style="text-align: center;">
         <form action="{{ url_for('result') }}" method="post" class ="searchform">

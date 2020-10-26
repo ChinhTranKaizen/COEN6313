@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from response_processor import response_processor
 import requests
 import json
@@ -33,10 +33,12 @@ def result():
     headers = {
         'X-ListenAPI-Key': 'ce8e7ce414414764be7159d0aeecdb16',
     }
-    response = json.loads(json.dumps(requests.request('GET', url, headers=headers).json()))
+    response = json.dumps(requests.request('GET', url, headers=headers).json())
     results = response_processor(response)
-    return render_template("result.html")
+    return render_template("result.html", results = results)
 
 @app.route("/summary")
 def summary():
     return ""
+
+app.run(debug = True)
